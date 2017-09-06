@@ -11,9 +11,9 @@ export SAASBUILDER="${base_registry}/argobase/saasbuilder:v1"
 
 # GOPATH sequence matters here, common contains customized libraries, common/vendor must be after the common
 if [[ -z $GOPATH ]] ; then
-    export GOPATH=$SRCROOT/saas/common:$SRCROOT/saas/common/vendor:$SRCROOT/saas/tests/luceneindex:$SRCROOT/saas/axdb:$SRCROOT/saas/axamm:$SRCROOT/saas/axops:$SRCROOT/saas/axnc:$SRCROOT/saas/argocli
+    export GOPATH=$SRCROOT/saas/common:$SRCROOT/saas/common/vendor:$SRCROOT/saas/tests/luceneindex:$SRCROOT/saas/axdb:$SRCROOT/saas/axamm:$SRCROOT/saas/axops:$SRCROOT/saas/axnc:$SRCROOT/saas/argocli:$SRCROOT/saas/axamm:$SRCROOT/saas/axrc
 else
-    export GOPATH=$SRCROOT/saas/common:$SRCROOT/saas/common/vendor:$SRCROOT/saas/tests/luceneindex:$SRCROOT/saas/axdb:$SRCROOT/saas/axamm:$SRCROOT/saas/axops:$SRCROOT/saas/axnc:$SRCROOT/saas/argocli:${GOPATH}
+    export GOPATH=$SRCROOT/saas/common:$SRCROOT/saas/common/vendor:$SRCROOT/saas/tests/luceneindex:$SRCROOT/saas/axdb:$SRCROOT/saas/axamm:$SRCROOT/saas/axops:$SRCROOT/saas/axnc:$SRCROOT/saas/argocli:$SRCROOT/saas/axamm:$SRCROOT/saas/axrc:${GOPATH}
 fi
 
 build_in_container() {

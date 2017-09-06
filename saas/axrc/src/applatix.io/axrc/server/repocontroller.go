@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"applatix.io/axerror"
+	"github.com/gin-gonic/gin"
 )
 
 func PingHandler() gin.HandlerFunc {
