@@ -16,7 +16,8 @@ PRODUCTION_SERVICES = [
     "axops",
     "argocli",
     "zookeeper",
-    "kafka"
+    "kafka",
+    "axrc"
 ]
 
 tools_services = [

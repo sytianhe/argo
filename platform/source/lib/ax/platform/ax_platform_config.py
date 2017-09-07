@@ -32,6 +32,7 @@ START_SET = frozenset([
     "prometheus",
     "notification-center-svc",
     "platform-post-boot",
+    "axrc-svc",
 ])
 
 START_SET_KUBE_SYSTEM_EXT = frozenset([
