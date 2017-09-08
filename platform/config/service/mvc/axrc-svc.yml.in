@@ -39,7 +39,7 @@ spec:
             containers:
               - name: axrc
                 image: ${REGISTRY}/${NAMESPACE}/axrc:${VERSION}
-                command: [ "sh", "-c", "/axrc/bin/axrc $AXDB $KAFKA $AXOPS"]
+                command: [ "sh", "-c", "/axrc/bin/server $AXDB $KAFKA $AXOPS"]
                 env:
                   - name: AXDB
                     value: "http://axdb.axsys:8083/v1"
