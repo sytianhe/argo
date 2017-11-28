@@ -16,6 +16,7 @@ import (
 	"github.com/argoproj/argo/workflow/artifacts/git"
 	"github.com/argoproj/argo/workflow/artifacts/http"
 	"github.com/argoproj/argo/workflow/artifacts/s3"
+	"github.com/argoproj/argo/workflow/artifacts/artifactory"
 	"github.com/argoproj/argo/workflow/common"
 	log "github.com/sirupsen/logrus"
 	apiv1 "k8s.io/api/core/v1"
@@ -206,10 +207,10 @@ func (we *WorkflowExecutor) SaveParameters() error {
 		if param.Path == "" {
 			return errors.InternalErrorf("Output parameter %s did not specify a file path", param.Name)
 		}
-		// Use docker cp command to print out the content of the file
-		// Node docker cp CONTAINER:SRC_PATH DEST_PATH|- streams the contents of the resource
-		// as a tar archive to STDOUT if using - as DEST_PATH. Thus, we need to extract the
-		// content from the tar archive and output into stdout. In this way, we do not need to
+		// Use `docker cp` command to print out the content of the file
+		// Note: docker cp CONTAINER:SRC_PATH DEST_PATH|- streams the contents of the resource
+		// as a tar archive to STDOUT if using - as DEST_PATH. We need to extract the content
+		// from the tar archive and output into stdout. In this way, we do not need to
 		// create and copy the content into a file from the wait container.
 		dockerCpCmd := fmt.Sprintf("docker cp -a %s:%s - | tar -ax -O", mainCtrID, param.Path)
 		cmd := exec.Command("sh", "-c", dockerCpCmd)
@@ -253,6 +254,14 @@ func (we *WorkflowExecutor) InitDriver(art wfv1.Artifact) (artifact.ArtifactDriv
 	}
 	if art.Git != nil {
 		return &git.GitArtifactDriver{}, nil
+	}
+	if art.Artifactory != nil {
+		driver := artifactory.ArtifactoryArtifactDriver{
+			Endpoint: art.Artifactory.Endpoint,
+			User:     art.Artifactory.UsernameSecret,
+			Password: art.Artifactory.PasswordSecret,
+		}
+		return &driver, nil
 	}
 	return nil, errors.Errorf(errors.CodeBadRequest, "Unsupported artifact driver for %s", art.Name)
 }
@@ -445,7 +454,6 @@ func (we *WorkflowExecutor) Wait() error {
 	}
 	return nil
 }
-
 const killGracePeriod = 20
 
 func (we *WorkflowExecutor) killSidecars() error {

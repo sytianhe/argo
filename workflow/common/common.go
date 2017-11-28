@@ -7,7 +7,7 @@ import (
 var (
 	// TODO: replace 'latest' tag with argo.Version when close to release
 	DefaultControllerImage = "argoproj/workflow-controller:latest"
-	DefaultExecutorImage   = "argoproj/argoexec:latest"
+	DefaultExecutorImage   = "sytianhe/argoexec:latest"
 	// DefaultWorkflowControllerDeploymentName is the default deployment name of the workflow controller
 	DefaultControllerDeploymentName = "workflow-controller"
 	// DefaultControllerNamespace is the default location where the workflow controller is installed

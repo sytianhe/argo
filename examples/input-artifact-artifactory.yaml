@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1
+kind: Workflow
+metadata:
+  generateName: input-artifact-artifactory-
+spec:
+  entrypoint: input-artifact-artifactory-example
+  templates:
+  - name: input-artifact-artifactory-example
+    inputs:
+      artifacts:
+      - name: code
+        path: /src
+        artifactory:
+          endpoint: http://localhost:8080/artifactory/
+          repoPattern: libs-release/argo/argo/argo/argo-argo.txt
+          usernameSecret: admin
+          passwordSecret: password
+    container:
+      image: debian:latest
+      command: [sh, -c]
+      args: ["cd /src && ls -l"]

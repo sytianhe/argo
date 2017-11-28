@@ -118,9 +118,10 @@ type Artifact struct {
 // It is also used to describe the location of multiple artifacts such as the archive location
 // of a single workflow step, which the executor will use as a default location to store its files.
 type ArtifactLocation struct {
-	S3   *S3Artifact   `json:"s3,omitempty"`
-	Git  *GitArtifact  `json:"git,omitempty"`
-	HTTP *HTTPArtifact `json:"http,omitempty"`
+	S3         *S3Artifact          `json:"s3,omitempty"`
+	Git        *GitArtifact         `json:"git,omitempty"`
+	HTTP       *HTTPArtifact        `json:"http,omitempty"`
+	Artifactory *ArtifactoryArtifact `json:"artifactory,omitempty"`
 }
 
 type Outputs struct {
@@ -229,6 +230,16 @@ type GitArtifact struct {
 
 type HTTPArtifact struct {
 	URL string `json:"url"`
+}
+
+type ArtifactoryArtifact struct {
+	Endpoint       string `json:"endpoint"`
+	RepoPattern    string `json:"repoPattern"`
+	// Todo
+	//UsernameSecret *apiv1.SecretKeySelector `json:"usernameSecret,omitempty"`
+	//PasswordSecret *apiv1.SecretKeySelector `json:"passwordSecret,omitempty"`
+	UsernameSecret string `json:"usernameSecret,omitempty"`
+	PasswordSecret string `json:"passwordSecret,omitempty"`
 }
 
 // Script is a template subtype to enable scripting through code steps
